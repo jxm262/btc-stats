@@ -4,7 +4,7 @@
   "description": "Bitcoin price api to calculate statistics on spot prices across exchanges.",
   "main": "btc-stats.js",
   "scripts": {
-    "test": "npm test"
+    "test": "mocha test"
   },
   "repository": {
     "type": "git",
@@ -33,5 +33,8 @@
     "mocha": "^2.1.0",
     "sinon": "^1.12.2",
     "sinon-chai": "^2.6.0"
+  },
+  "dependencies": {
+    "xchange.js": "^0.1.2"
   }
 }

@@ -24,4 +24,18 @@ describe("btcstats.js", function(){
 		});
 	});
 	
+	describe("avg function", function(){
+		
+		//TODO: move this to an actual unit test (stub the async call and spy on the callback)
+		it("should retrieve the average ticker price across exchanges", function(done){
+			btcstats.exchanges(['bitfinex', 'bitstamp']);
+
+			btcstats.avg(function(error, resp){
+				if(!error){
+					resp.should.have.keys(["bid", "ask", "low", "high", "volume", "timestamp"]);
+				}
+				done();
+			});
+		});
+	});	
 });

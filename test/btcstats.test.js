@@ -1,6 +1,7 @@
 "use strict";
 
 var btcstats = require("../lib/btcstats.js")
+	,async = require("async")
 	,assert = require("assert")
 	,chai = require("chai")
 	,sinon = require("sinon")
@@ -26,16 +27,18 @@ describe("btcstats.js", function(){
 	
 	describe("avg function", function(){
 		
-		//TODO: move this to an actual unit test (stub the async call and spy on the callback)
-		it("should retrieve the average ticker price across exchanges", function(done){
-			btcstats.exchanges(['bitfinex', 'bitstamp']);
+		it("should retrieve the average ticker price across exchanges", sinon.test(function(){
+			var callback = sinon.spy();
+			var response = [{"bid": 20, "ask": 25, "low": 30, "high": 35, "volume": 40, "timestamp": 50}
+							,{"bid": 30, "ask": 35, "low": 40, "high": 45, "volume": 50, "timestamp": 60}];
 
-			btcstats.avg(function(error, resp){
-				if(!error){
-					resp.should.have.keys(["bid", "ask", "low", "high", "volume", "timestamp"]);
-				}
-				done();
-			});
-		});
+			this.stub(async, "parallel").yields(null, response);
+			
+			btcstats.exchanges(['bitfinex', 'bitstamp']);
+			btcstats.avg(callback);
+			
+			callback.should.have.been.calledWith(null, {"bid": 25, "ask": 30, "low": 35, "high": 40, "volume": 45, "timestamp": 55});
+		}));
 	});	
+	
 });

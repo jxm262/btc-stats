@@ -29,15 +29,35 @@ describe("btcstats.js", function(){
 		
 		it("should retrieve the average ticker price across exchanges", sinon.test(function(){
 			var callback = sinon.spy();
-			var response = [{"bid": 20, "ask": 25, "low": 30, "high": 35, "volume": 40, "timestamp": 50}
-							,{"bid": 30, "ask": 35, "low": 40, "high": 45, "volume": 50, "timestamp": 60}];
+			var response = [{"bid": 20, "ask": 30, "low": 1, "high": 1, "volume": 1, "timestamp": 1}
+							,{"bid": 30, "ask": 40, "low": 1, "high": 1, "volume": 1, "timestamp": 1}];
 
 			this.stub(async, "parallel").yields(null, response);
 			
 			btcstats.exchanges(['bitfinex', 'bitstamp']);
 			btcstats.avg(callback);
 			
-			callback.should.have.been.calledWith(null, {"bid": 25, "ask": 30, "low": 35, "high": 40, "volume": 45, "timestamp": 55});
+			//midpoint(1st) = 25 , midpoint(2nd) = 35.  avg (25 + 35) / 2 = 30
+			callback.should.have.been.calledWith(null, {"price": 30});
+		}));
+	});	
+	
+	describe("weightedAvg function", function(){
+		
+		it("should retrieve the average ticker price weighted by volume", sinon.test(function(){
+			var callback = sinon.spy();
+			var response = 
+				[{"bid": 20, "ask": 30, "low": 1, "high": 1, "volume": 20, "timestamp": 1}
+				,{"bid": 30, "ask": 40, "low": 1, "high": 1, "volume": 30, "timestamp": 1}
+				,{"bid": 40, "ask": 50, "low": 1, "high": 1, "volume": 50, "timestamp": 1}];
+			
+			this.stub(async, "parallel").yields(null, response);
+			
+			btcstats.exchanges(['bitfinex', 'bitstamp']);
+			btcstats.weightedAvg(callback);
+			
+			//(25 * .2) + (35 * .3) + (45 * .5) = 38
+			callback.should.have.been.calledWith(null, {"price": 38});
 		}));
 	});	
 	

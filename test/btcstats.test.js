@@ -1,6 +1,7 @@
 "use strict";
 
 var btcstats = require("../lib/btcstats.js")
+	,xchange = require("xchange.js")
 	,async = require("async")
 	,assert = require("assert")
 	,chai = require("chai")
@@ -61,4 +62,21 @@ describe("btcstats.js", function(){
 		}));
 	});	
 	
+	describe("min function", function(){
+		
+		it("should retrieve the min ticker price and associated exchange", sinon.test(function(){
+			var callback = sinon.spy();
+			var response = 
+				[{"bid": 20, "ask": 30, "low": 1, "high": 1, "volume": 20, "timestamp": 1, "ticker": "bitfinex"}		//bitfinex
+				,{"bid": 30, "ask": 40, "low": 1, "high": 1, "volume": 30, "timestamp": 1, "ticker": "bitstamp"}];	//bitstamp
+			
+			this.stub(xchange.bitfinex, "ticker").yields(null, {"bid": 20, "ask": 30, "low": 1, "high": 1, "volume": 20, "timestamp": 1, "ticker": "bitfinex"});
+			this.stub(xchange.bitstamp, "ticker").yields(null, {"bid": 30, "ask": 40, "low": 1, "high": 1, "volume": 30, "timestamp": 1, "ticker": "bitstamp"});
+			
+			btcstats.exchanges(['bitfinex', 'bitstamp']);
+			btcstats.min(callback);
+			
+			callback.should.have.been.calledWith(null, {price: 25, exchange: "bitfinex"});
+		}));
+	});	
 });

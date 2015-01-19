@@ -15,27 +15,23 @@ chai.use(sinonChai);
 describe("btcstats.js", function(){
 	
 	describe("_exchange prop", function(){
-		
 		it("exchanges should contain all xchange listing by default", function(){
-			Object.keys(btcstats._exchanges).should.eql(['bitfinex', 'bitstamp', 'okcoin', 'btce', 'btc38', 'bter', 'hitbtc', 'ccex', 'Xchange']);
+			Object.keys(btcstats._exchanges).should.eql(["bitfinex", "bitstamp", "okcoin", "btce", "btc38", "bter", "hitbtc", "ccex", "Xchange"]);
 		});
 		
 		it("exchanges should contain exchanges input by user if provided (subset of xchange listing)", function(){
-			btcstats.exchanges(['bitfinex', 'bitstamp', 'okcoin']);
-			Object.keys(btcstats._exchanges).should.eql(['bitfinex', 'bitstamp', 'okcoin']);
+			btcstats.exchanges(["bitfinex", "bitstamp", "okcoin"]);
+			Object.keys(btcstats._exchanges).should.eql(["bitfinex", "bitstamp", "okcoin"]);
 		});
 	});
 	
 	describe("avg function", function(){
-		
 		it("should retrieve the average ticker price across exchanges", sinon.test(function(){
 			var callback = sinon.spy();
-			var response = [{"bid": 20, "ask": 30, "low": 1, "high": 1, "volume": 1, "timestamp": 1}
-							,{"bid": 30, "ask": 40, "low": 1, "high": 1, "volume": 1, "timestamp": 1}];
+			this.stub(xchange.bitfinex, "ticker").yields(null, {"bid": 20, "ask": 30, "low": 1, "high": 1, "volume": 20, "timestamp": 1, "ticker": "bitfinex"});
+			this.stub(xchange.bitstamp, "ticker").yields(null, {"bid": 30, "ask": 40, "low": 1, "high": 1, "volume": 30, "timestamp": 1, "ticker": "bitstamp"});
 
-			this.stub(async, "parallel").yields(null, response);
-			
-			btcstats.exchanges(['bitfinex', 'bitstamp']);
+			btcstats.exchanges(["bitfinex", "bitstamp"]);
 			btcstats.avg(callback);
 			
 			//midpoint(1st) = 25 , midpoint(2nd) = 35.  avg (25 + 35) / 2 = 30
@@ -44,7 +40,6 @@ describe("btcstats.js", function(){
 	});	
 	
 	describe("weightedAvg function", function(){
-		
 		it("should retrieve the average ticker price weighted by volume", sinon.test(function(){
 			var callback = sinon.spy();
 			var response = 
@@ -52,9 +47,11 @@ describe("btcstats.js", function(){
 				,{"bid": 30, "ask": 40, "low": 1, "high": 1, "volume": 30, "timestamp": 1}
 				,{"bid": 40, "ask": 50, "low": 1, "high": 1, "volume": 50, "timestamp": 1}];
 			
-			this.stub(async, "parallel").yields(null, response);
+			this.stub(xchange.bitfinex, "ticker").yields(null, {"bid": 20, "ask": 30, "low": 1, "high": 1, "volume": 20, "timestamp": 1, "ticker": "bitfinex"});
+			this.stub(xchange.bitstamp, "ticker").yields(null, {"bid": 30, "ask": 40, "low": 1, "high": 1, "volume": 30, "timestamp": 1, "ticker": "bitstamp"});
+			this.stub(xchange.okcoin, "ticker").yields(null, {"bid": 40, "ask": 50, "low": 1, "high": 1, "volume": 50, "timestamp": 1, "ticker": "okcoin"});
 			
-			btcstats.exchanges(['bitfinex', 'bitstamp']);
+			btcstats.exchanges(["bitfinex", "bitstamp", "okcoin"]);
 			btcstats.weightedAvg(callback);
 			
 			//(25 * .2) + (35 * .3) + (45 * .5) = 38
@@ -66,17 +63,70 @@ describe("btcstats.js", function(){
 		
 		it("should retrieve the min ticker price and associated exchange", sinon.test(function(){
 			var callback = sinon.spy();
-			var response = 
-				[{"bid": 20, "ask": 30, "low": 1, "high": 1, "volume": 20, "timestamp": 1, "ticker": "bitfinex"}		//bitfinex
-				,{"bid": 30, "ask": 40, "low": 1, "high": 1, "volume": 30, "timestamp": 1, "ticker": "bitstamp"}];	//bitstamp
-			
 			this.stub(xchange.bitfinex, "ticker").yields(null, {"bid": 20, "ask": 30, "low": 1, "high": 1, "volume": 20, "timestamp": 1, "ticker": "bitfinex"});
 			this.stub(xchange.bitstamp, "ticker").yields(null, {"bid": 30, "ask": 40, "low": 1, "high": 1, "volume": 30, "timestamp": 1, "ticker": "bitstamp"});
 			
-			btcstats.exchanges(['bitfinex', 'bitstamp']);
+			btcstats.exchanges(["bitfinex", "bitstamp"]);
 			btcstats.min(callback);
 			
 			callback.should.have.been.calledWith(null, {price: 25, exchange: "bitfinex"});
 		}));
+	});
+	
+	describe("max function", function(){
+		
+		it("should retrieve the max ticker price and associated exchange", sinon.test(function(){
+			var callback = sinon.spy();
+			this.stub(xchange.bitfinex, "ticker").yields(null, {"bid": 20, "ask": 30, "low": 1, "high": 1, "volume": 20, "timestamp": 1, "ticker": "bitfinex"});
+			this.stub(xchange.bitstamp, "ticker").yields(null, {"bid": 30, "ask": 40, "low": 1, "high": 1, "volume": 30, "timestamp": 1, "ticker": "bitstamp"});
+			
+			btcstats.exchanges(["bitfinex", "bitstamp"]);
+			btcstats.max(callback);
+			
+			callback.should.have.been.calledWith(null, {price: 35, exchange: "bitstamp"});
+		}));
 	});	
+	
+	describe("minVolume function", function(){
+		
+		it("should retrieve the minimum volume and associated exchange", sinon.test(function(){
+			var callback = sinon.spy();
+			this.stub(xchange.bitfinex, "ticker").yields(null, {"bid": 20, "ask": 30, "low": 1, "high": 1, "volume": 20, "timestamp": 1, "ticker": "bitfinex"});
+			this.stub(xchange.bitstamp, "ticker").yields(null, {"bid": 30, "ask": 40, "low": 1, "high": 1, "volume": 30, "timestamp": 1, "ticker": "bitstamp"});
+			
+			btcstats.exchanges(["bitfinex", "bitstamp"]);
+			btcstats.minVolume(callback);
+			
+			callback.should.have.been.calledWith(null, {price: 20, exchange: "bitfinex"});
+		}));
+	});	
+	
+	describe("maxVolume function", function(){
+		
+		it("should retrieve the maximum volume and associated exchange", sinon.test(function(){
+			var callback = sinon.spy();
+			this.stub(xchange.bitfinex, "ticker").yields(null, {"bid": 20, "ask": 30, "low": 1, "high": 1, "volume": 20, "timestamp": 1, "ticker": "bitfinex"});
+			this.stub(xchange.bitstamp, "ticker").yields(null, {"bid": 30, "ask": 40, "low": 1, "high": 1, "volume": 30, "timestamp": 1, "ticker": "bitstamp"});
+			
+			btcstats.exchanges(["bitfinex", "bitstamp"]);
+			btcstats.maxVolume(callback);
+			
+			callback.should.have.been.calledWith(null, {price: 30, exchange: "bitstamp"});
+		}));
+	});	
+	
+	//TODO: finish test and implementation
+//	describe("maxSpread function", function(){
+//		
+//		it("should retrieve the max spread, ask, bid, and associated exchanges", sinon.test(function(){
+//			var callback = sinon.spy();
+//			this.stub(xchange.bitfinex, "ticker").yields(null, {"bid": 20, "ask": 30, "low": 1, "high": 1, "volume": 20, "timestamp": 1, "ticker": "bitfinex"});
+//			this.stub(xchange.bitstamp, "ticker").yields(null, {"bid": 30, "ask": 40, "low": 1, "high": 1, "volume": 30, "timestamp": 1, "ticker": "bitstamp"});
+//			
+//			btcstats.exchanges(["bitfinex", "bitstamp"]);
+//			btcstats.maxSpread(callback);
+//			
+//			callback.should.have.been.calledWith(null, {price: 30, exchange: "bitstamp"});
+//		}));
+//	});	
 });

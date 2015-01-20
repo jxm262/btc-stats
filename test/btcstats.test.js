@@ -115,18 +115,31 @@ describe("btcstats.js", function(){
 		}));
 	});	
 	
-	//TODO: finish test and implementation
-//	describe("maxSpread function", function(){
-//		
-//		it("should retrieve the max spread, ask, bid, and associated exchanges", sinon.test(function(){
-//			var callback = sinon.spy();
-//			this.stub(xchange.bitfinex, "ticker").yields(null, {"bid": 20, "ask": 30, "low": 1, "high": 1, "volume": 20, "timestamp": 1, "ticker": "bitfinex"});
-//			this.stub(xchange.bitstamp, "ticker").yields(null, {"bid": 30, "ask": 40, "low": 1, "high": 1, "volume": 30, "timestamp": 1, "ticker": "bitstamp"});
-//			
-//			btcstats.exchanges(["bitfinex", "bitstamp"]);
-//			btcstats.maxSpread(callback);
-//			
-//			callback.should.have.been.calledWith(null, {price: 30, exchange: "bitstamp"});
-//		}));
-//	});	
+	describe("maxSpread function", function(){
+		
+		it("should retrieve the max spread, ask, bid, and associated exchanges", sinon.test(function(){
+			var callback = sinon.spy();
+			this.stub(xchange.bitfinex, "ticker").yields(null, {"bid": 20, "ask": 30, "low": 1, "high": 1, "volume": 20, "timestamp": 1, "ticker": "bitfinex"});
+			this.stub(xchange.bitstamp, "ticker").yields(null, {"bid": 30, "ask": 40, "low": 1, "high": 1, "volume": 30, "timestamp": 1, "ticker": "bitstamp"});
+			
+			btcstats.exchanges(["bitfinex", "bitstamp"]);
+			btcstats.maxSpread(callback);
+			
+			callback.should.have.been.calledWith(null, {spread: (20).toFixed(2), bid: 20, ask: 40, bidExchange: "bitfinex", askExchange: "bitstamp"});
+		}));
+	});	
+	
+	describe("minSpread function", function(){
+		
+		it("should retrieve the min spread, ask, bid, and associated exchanges", sinon.test(function(){
+			var callback = sinon.spy();
+			this.stub(xchange.bitfinex, "ticker").yields(null, {"bid": 20, "ask": 30, "low": 1, "high": 1, "volume": 20, "timestamp": 1, "ticker": "bitfinex"});
+			this.stub(xchange.bitstamp, "ticker").yields(null, {"bid": 30, "ask": 40, "low": 1, "high": 1, "volume": 30, "timestamp": 1, "ticker": "bitstamp"});
+			
+			btcstats.exchanges(["bitfinex", "bitstamp"]);
+			btcstats.minSpread(callback);
+			
+			callback.should.have.been.calledWith(null, {spread: (0).toFixed(2), bid: 30, ask: 30, bidExchange: "bitstamp", askExchange: "bitfinex"});
+		}));
+	});	
 });

@@ -1,12 +1,13 @@
 /**
- * Example running ticker calculations on 2 exchanges (bitfinex & bitstamp)
+ * Example running functions on 3 exchanges (bitfinex, bitstamp, okcoin)
  */
 
 "use strict";
 
 var btcstats = require("../lib/btcstats");
+var xchange = require("xchange.js");
 
-btcstats.exchanges(['bitfinex', 'bitstamp', 'okcoin']);
+//btcstats.exchanges(['bitfinex', 'bitstamp', 'okcoin']);
 
 btcstats.avg(function(error, resp){
 	console.log("avg: ");
@@ -89,7 +90,7 @@ btcstats.maxSpread(function(error, resp){
 });
 
 btcstats.exchangeMinSpread(function(error, resp){
-	console.log("maxSpread: ");
+	console.log("exchangeMinSpread: ");
 	
 	if(error){
 		console.log("errror: " + error);
@@ -99,7 +100,7 @@ btcstats.exchangeMinSpread(function(error, resp){
 });
 
 btcstats.exchangeMaxSpread(function(error, resp){
-	console.log("maxSpread: ");
+	console.log("exchangeMaxSpread: ");
 	
 	if(error){
 		console.log("errror: " + error);
@@ -108,14 +109,6 @@ btcstats.exchangeMaxSpread(function(error, resp){
 	}
 });
 
-
-
-//btcstats.avg				// {price: xx}
-//btcstats.weightedAvg		// {price: xx}  //according to volume
-//btcstats.min				// {price: xx, exchange: xx}
-//btcstats.max				// {price: xx, same as xchange}
-//btcstats.minVolume		// {volume: xx, same as xchange}
-//btcstats.maxVolume		// {volume: xx, same as xchange}
 
 //TODO: think of function name to differentiate the 
 //   -exchange with highest ask vs exchange with lowest bid

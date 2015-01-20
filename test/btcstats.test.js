@@ -30,12 +30,12 @@ describe("btcstats.js", function(){
 			var callback = sinon.spy();
 			this.stub(xchange.bitfinex, "ticker").yields(null, {"bid": 20, "ask": 30, "low": 1, "high": 1, "volume": 20, "timestamp": 1, "ticker": "bitfinex"});
 			this.stub(xchange.bitstamp, "ticker").yields(null, {"bid": 30, "ask": 40, "low": 1, "high": 1, "volume": 30, "timestamp": 1, "ticker": "bitstamp"});
+			this.stub(xchange.okcoin, "ticker").yields(null, {"bid": 10, "ask": 20, "low": 1, "high": 1, "volume": 30, "timestamp": 1, "ticker": "okcoin"});
 
-			btcstats.exchanges(["bitfinex", "bitstamp"]);
+			btcstats.exchanges(["bitfinex", "bitstamp", "okcoin"]);
 			btcstats.avg(callback);
 			
-			//midpoint(1st) = 25 , midpoint(2nd) = 35.  avg (25 + 35) / 2 = 30
-			callback.should.have.been.calledWith(null, {"price": 30});
+			callback.should.have.been.calledWith(null, {"price": 25});
 		}));
 	});	
 	

@@ -91,13 +91,13 @@ describe("btcstats.js", function(){
 		
 		it("should retrieve the minimum volume and associated exchange", sinon.test(function(){
 			var callback = sinon.spy();
-			this.stub(xchange.bitfinex, "ticker").yields(null, {"bid": 20, "ask": 30, "low": 1, "high": 1, "volume": 20, "timestamp": 1, "ticker": "bitfinex"});
-			this.stub(xchange.bitstamp, "ticker").yields(null, {"bid": 30, "ask": 40, "low": 1, "high": 1, "volume": 30, "timestamp": 1, "ticker": "bitstamp"});
+			this.stub(xchange.bitfinex, "ticker").yields(null, {"bid": 20, "ask": 30, "low": 1, "high": 1, "volume": 200, "timestamp": 1, "ticker": "bitfinex"});
+			this.stub(xchange.bitstamp, "ticker").yields(null, {"bid": 30, "ask": 40, "low": 1, "high": 1, "volume": 300, "timestamp": 1, "ticker": "bitstamp"});
 			
 			btcstats.exchanges(["bitfinex", "bitstamp"]);
 			btcstats.minVolume(callback);
 			
-			callback.should.have.been.calledWith(null, {price: 20, exchange: "bitfinex"});
+			callback.should.have.been.calledWith(null, {volume: 200, exchange: "bitfinex"});
 		}));
 	});	
 	
@@ -105,13 +105,13 @@ describe("btcstats.js", function(){
 		
 		it("should retrieve the maximum volume and associated exchange", sinon.test(function(){
 			var callback = sinon.spy();
-			this.stub(xchange.bitfinex, "ticker").yields(null, {"bid": 20, "ask": 30, "low": 1, "high": 1, "volume": 20, "timestamp": 1, "ticker": "bitfinex"});
-			this.stub(xchange.bitstamp, "ticker").yields(null, {"bid": 30, "ask": 40, "low": 1, "high": 1, "volume": 30, "timestamp": 1, "ticker": "bitstamp"});
+			this.stub(xchange.bitfinex, "ticker").yields(null, {"bid": 20, "ask": 30, "low": 1, "high": 1, "volume": 200, "timestamp": 1, "ticker": "bitfinex"});
+			this.stub(xchange.bitstamp, "ticker").yields(null, {"bid": 30, "ask": 40, "low": 1, "high": 1, "volume": 300, "timestamp": 1, "ticker": "bitstamp"});
 			
 			btcstats.exchanges(["bitfinex", "bitstamp"]);
 			btcstats.maxVolume(callback);
 			
-			callback.should.have.been.calledWith(null, {price: 30, exchange: "bitstamp"});
+			callback.should.have.been.calledWith(null, {volume: 300, exchange: "bitstamp"});
 		}));
 	});	
 	
@@ -154,6 +154,20 @@ describe("btcstats.js", function(){
 			btcstats.exchangeMaxSpread(callback);
 			
 			callback.should.have.been.calledWith(null, {spread: (10).toFixed(2), bid: 30, ask: 40, exchange: "bitstamp"});
+		}));
+	});	
+	
+	describe("exchangeMinSpread function", function(){
+		
+		it("should retrieve the max spread, ask, bid, and associated exchange", sinon.test(function(){
+			var callback = sinon.spy();
+			this.stub(xchange.bitfinex, "ticker").yields(null, {"bid": 25, "ask": 30, "low": 1, "high": 1, "volume": 20, "timestamp": 1, "ticker": "bitfinex"});
+			this.stub(xchange.bitstamp, "ticker").yields(null, {"bid": 30, "ask": 40, "low": 1, "high": 1, "volume": 30, "timestamp": 1, "ticker": "bitstamp"});
+			
+			btcstats.exchanges(["bitfinex", "bitstamp"]);
+			btcstats.exchangeMinSpread(callback);
+			
+			callback.should.have.been.calledWith(null, {spread: (5).toFixed(2), bid: 25, ask: 30, exchange: "bitfinex"});
 		}));
 	});	
 });

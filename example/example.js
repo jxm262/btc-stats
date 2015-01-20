@@ -6,17 +6,109 @@
 
 var btcstats = require("../lib/btcstats");
 
-btcstats.exchanges(['bitfinex', 'bitstamp']);
+btcstats.exchanges(['bitfinex', 'bitstamp', 'okcoin']);
 
-btcstats.maxSpread(function(error, resp){
-//	if(error){
-//		console.log("errror: ");
-//		console.log(error);
-//	}
-	if(!error){
+btcstats.avg(function(error, resp){
+	console.log("avg: ");
+	
+	if(error){
+		console.log("errror: " + error);
+	} else {
 		console.log(resp);
 	}
 });
+
+btcstats.weightedAvg(function(error, resp){
+	console.log("weightedAvg: ");
+	
+	if(error){
+		console.log("errror: " + error);
+	} else {
+		console.log(resp);
+	}
+});
+
+btcstats.min(function(error, resp){
+	console.log("min");
+	
+	if(error){
+		console.log("errror: " + error);
+	} else {
+		console.log(resp);
+	}
+});
+
+btcstats.max(function(error, resp){
+	console.log("max: ");
+	
+	if(error){
+		console.log("errror: " + error);
+	} else {
+		console.log(resp);
+	}
+});
+
+btcstats.minVolume(function(error, resp){
+	console.log("minVolume: ");
+	
+	if(error){
+		console.log("errror: " + error);
+	} else {
+		console.log(resp);
+	}
+});
+
+btcstats.maxVolume(function(error, resp){
+	console.log("maxVolume: ");
+	
+	if(error){
+		console.log("errror: " + error);
+	} else {
+		console.log(resp);
+	}
+});
+
+btcstats.minSpread(function(error, resp){
+	console.log("minSpread: ");
+	
+	if(error){
+		console.log("errror: " + error);
+	} else {
+		console.log(resp);
+	}
+});
+
+btcstats.maxSpread(function(error, resp){
+	console.log("maxSpread: ");
+	
+	if(error){
+		console.log("errror: " + error);
+	} else {
+		console.log(resp);
+	}
+});
+
+btcstats.exchangeMinSpread(function(error, resp){
+	console.log("maxSpread: ");
+	
+	if(error){
+		console.log("errror: " + error);
+	} else {
+		console.log(resp);
+	}
+});
+
+btcstats.exchangeMaxSpread(function(error, resp){
+	console.log("maxSpread: ");
+	
+	if(error){
+		console.log("errror: " + error);
+	} else {
+		console.log(resp);
+	}
+});
+
+
 
 //btcstats.avg				// {price: xx}
 //btcstats.weightedAvg		// {price: xx}  //according to volume
@@ -35,6 +127,6 @@ btcstats.maxSpread(function(error, resp){
 //btcstats.minSpread		// {spread: xx, ask: xx (low) , bid: xx (high), askExchange: xx, bidExchange: xx}
 
 //across single exchanges  (example the exchange with the max spread)
-//btcstats.maxSpread		// {spread: xx, ask: xx (low) , bid: xx (high), exchange: xx}
-//btcstats.minSpread		// {spread: xx, ask: xx (low) , bid: xx (high), exchange: xx}
+//btcstats.exchangeMaxSpread		// {spread: xx, ask: xx (low) , bid: xx (high), exchange: xx}
+//btcstats.exchangeMinSpread		// {spread: xx, ask: xx (low) , bid: xx (high), exchange: xx}
 

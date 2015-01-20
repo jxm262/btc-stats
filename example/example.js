@@ -5,108 +5,75 @@
 "use strict";
 
 var btcstats = require("../lib/btcstats");
-var xchange = require("xchange.js");
 
-//btcstats.exchanges(['bitfinex', 'bitstamp', 'okcoin']);
+btcstats.exchanges(['bitfinex', 'bitstamp', 'okcoin']);
+
+function print(error, resp){
+	if(error){
+		console.log("error: " + error);
+	} else{
+		console.log(resp);
+	}
+}
+
 
 btcstats.avg(function(error, resp){
 	console.log("avg: ");
-	
-	if(error){
-		console.log("errror: " + error);
-	} else {
-		console.log(resp);
-	}
+	print(error, resp);
 });
+
 
 btcstats.weightedAvg(function(error, resp){
 	console.log("weightedAvg: ");
-	
-	if(error){
-		console.log("errror: " + error);
-	} else {
-		console.log(resp);
-	}
+	print(error, resp);
 });
+
 
 btcstats.min(function(error, resp){
 	console.log("min");
-	
-	if(error){
-		console.log("errror: " + error);
-	} else {
-		console.log(resp);
-	}
+	print(error, resp);
 });
+
 
 btcstats.max(function(error, resp){
 	console.log("max: ");
-	
-	if(error){
-		console.log("errror: " + error);
-	} else {
-		console.log(resp);
-	}
+	print(error, resp);
 });
+
 
 btcstats.minVolume(function(error, resp){
 	console.log("minVolume: ");
-	
-	if(error){
-		console.log("errror: " + error);
-	} else {
-		console.log(resp);
-	}
+	print(error, resp);
 });
+
 
 btcstats.maxVolume(function(error, resp){
 	console.log("maxVolume: ");
-	
-	if(error){
-		console.log("errror: " + error);
-	} else {
-		console.log(resp);
-	}
+	print(error, resp);
 });
+
 
 btcstats.minSpread(function(error, resp){
 	console.log("minSpread: ");
-	
-	if(error){
-		console.log("errror: " + error);
-	} else {
-		console.log(resp);
-	}
+	print(error, resp);
 });
+
 
 btcstats.maxSpread(function(error, resp){
 	console.log("maxSpread: ");
-	
-	if(error){
-		console.log("errror: " + error);
-	} else {
-		console.log(resp);
-	}
+	print(error, resp);
 });
+
 
 btcstats.exchangeMinSpread(function(error, resp){
 	console.log("exchangeMinSpread: ");
-	
-	if(error){
-		console.log("errror: " + error);
-	} else {
-		console.log(resp);
-	}
+	print(error, resp);
 });
 
+
 btcstats.exchangeMaxSpread(function(error, resp){
-	console.log("exchangeMaxSpread: ");
-	
-	if(error){
-		console.log("errror: " + error);
-	} else {
-		console.log(resp);
-	}
+	console.log("exchangeMaxSpread");
+	print(error, resp);
 });
 
 

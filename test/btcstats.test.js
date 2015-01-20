@@ -97,7 +97,7 @@ describe("btcstats.js", function(){
 			btcstats.exchanges(["bitfinex", "bitstamp"]);
 			btcstats.minVolume(callback);
 			
-			callback.should.have.been.calledWith(null, {volume: 200.00, exchange: "bitfinex"});
+			callback.should.have.been.calledWith(null, {volume: (200).toFixed(2), exchange: "bitfinex"});
 		}));
 	});	
 	

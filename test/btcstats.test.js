@@ -142,4 +142,18 @@ describe("btcstats.js", function(){
 			callback.should.have.been.calledWith(null, {spread: (0).toFixed(2), bid: 30, ask: 30, bidExchange: "bitstamp", askExchange: "bitfinex"});
 		}));
 	});	
+	
+	describe("exchangeMaxSpread function", function(){
+		
+		it("should retrieve the max spread, ask, bid, and associated exchange", sinon.test(function(){
+			var callback = sinon.spy();
+			this.stub(xchange.bitfinex, "ticker").yields(null, {"bid": 25, "ask": 30, "low": 1, "high": 1, "volume": 20, "timestamp": 1, "ticker": "bitfinex"});
+			this.stub(xchange.bitstamp, "ticker").yields(null, {"bid": 30, "ask": 40, "low": 1, "high": 1, "volume": 30, "timestamp": 1, "ticker": "bitstamp"});
+			
+			btcstats.exchanges(["bitfinex", "bitstamp"]);
+			btcstats.exchangeMaxSpread(callback);
+			
+			callback.should.have.been.calledWith(null, {spread: (10).toFixed(2), bid: 30, ask: 40, exchange: "bitstamp"});
+		}));
+	});	
 });

@@ -16,7 +16,7 @@ describe("btcstats.js", function(){
 	
 	describe("_exchange prop", function(){
 		it("exchanges should contain all xchange listing by default", function(){
-			Object.keys(btcstats._exchanges).should.eql(["bitfinex", "bitstamp", "okcoin", "btce", "btc38", "bter", "hitbtc", "ccex"]);
+			Object.keys(btcstats._exchanges).should.eql(["bitfinex", "bitstamp", "okcoin", "btce", "bter", "hitbtc", "ccex"]);
 		});
 		
 		it("exchanges should contain exchanges input by user if provided (subset of xchange listing)", function(){
@@ -35,7 +35,7 @@ describe("btcstats.js", function(){
 			btcstats.exchanges(["bitfinex", "bitstamp", "okcoin"]);
 			btcstats.avg(callback);
 			
-			callback.should.have.been.calledWith(null, {"price": 25});
+			callback.should.have.been.calledWith(null, {"price": (25).toFixed(2)});
 		}));
 	});	
 	
@@ -55,7 +55,7 @@ describe("btcstats.js", function(){
 			btcstats.weightedAvg(callback);
 			
 			//(25 * .2) + (35 * .3) + (45 * .5) = 38
-			callback.should.have.been.calledWith(null, {"price": 38});
+			callback.should.have.been.calledWith(null, {"price": (38).toFixed(2)});
 		}));
 	});	
 	
@@ -69,7 +69,7 @@ describe("btcstats.js", function(){
 			btcstats.exchanges(["bitfinex", "bitstamp"]);
 			btcstats.min(callback);
 			
-			callback.should.have.been.calledWith(null, {price: 25, exchange: "bitfinex"});
+			callback.should.have.been.calledWith(null, {price: (25).toFixed(2), exchange: "bitfinex"});
 		}));
 	});
 	
@@ -83,7 +83,7 @@ describe("btcstats.js", function(){
 			btcstats.exchanges(["bitfinex", "bitstamp"]);
 			btcstats.max(callback);
 			
-			callback.should.have.been.calledWith(null, {price: 35, exchange: "bitstamp"});
+			callback.should.have.been.calledWith(null, {price: (35).toFixed(2), exchange: "bitstamp"});
 		}));
 	});	
 	
@@ -97,7 +97,7 @@ describe("btcstats.js", function(){
 			btcstats.exchanges(["bitfinex", "bitstamp"]);
 			btcstats.minVolume(callback);
 			
-			callback.should.have.been.calledWith(null, {volume: 200, exchange: "bitfinex"});
+			callback.should.have.been.calledWith(null, {volume: 200.00, exchange: "bitfinex"});
 		}));
 	});	
 	
@@ -111,7 +111,7 @@ describe("btcstats.js", function(){
 			btcstats.exchanges(["bitfinex", "bitstamp"]);
 			btcstats.maxVolume(callback);
 			
-			callback.should.have.been.calledWith(null, {volume: 300, exchange: "bitstamp"});
+			callback.should.have.been.calledWith(null, {volume: (300).toFixed(2), exchange: "bitstamp"});
 		}));
 	});	
 	

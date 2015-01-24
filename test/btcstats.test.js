@@ -35,7 +35,7 @@ describe("btcstats.js", function(){
 			btcstats.exchanges(["bitfinex", "bitstamp", "okcoin"]);
 			btcstats.avg(callback);
 			
-			callback.should.have.been.calledWith(null, {"price": (25).toFixed(2)});
+			callback.should.have.been.calledWith(null, {"price": "25.00"});
 		}));
 	});	
 	
@@ -55,7 +55,7 @@ describe("btcstats.js", function(){
 			btcstats.weightedAvg(callback);
 			
 			//(25 * .2) + (35 * .3) + (45 * .5) = 38
-			callback.should.have.been.calledWith(null, {"price": (38).toFixed(2)});
+			callback.should.have.been.calledWith(null, {"price": "38.00"});
 		}));
 	});	
 	
@@ -69,7 +69,7 @@ describe("btcstats.js", function(){
 			btcstats.exchanges(["bitfinex", "bitstamp"]);
 			btcstats.min(callback);
 			
-			callback.should.have.been.calledWith(null, {price: (25).toFixed(2), exchange: "bitfinex"});
+			callback.should.have.been.calledWith(null, {price: "25.00", exchange: "bitfinex"});
 		}));
 	});
 	
@@ -83,7 +83,7 @@ describe("btcstats.js", function(){
 			btcstats.exchanges(["bitfinex", "bitstamp"]);
 			btcstats.max(callback);
 			
-			callback.should.have.been.calledWith(null, {price: (35).toFixed(2), exchange: "bitstamp"});
+			callback.should.have.been.calledWith(null, {price: "35.00", exchange: "bitstamp"});
 		}));
 	});	
 	
@@ -97,7 +97,7 @@ describe("btcstats.js", function(){
 			btcstats.exchanges(["bitfinex", "bitstamp"]);
 			btcstats.minVolume(callback);
 			
-			callback.should.have.been.calledWith(null, {volume: (200).toFixed(2), exchange: "bitfinex"});
+			callback.should.have.been.calledWith(null, {volume: "200.00", exchange: "bitfinex"});
 		}));
 	});	
 	
@@ -111,7 +111,7 @@ describe("btcstats.js", function(){
 			btcstats.exchanges(["bitfinex", "bitstamp"]);
 			btcstats.maxVolume(callback);
 			
-			callback.should.have.been.calledWith(null, {volume: (300).toFixed(2), exchange: "bitstamp"});
+			callback.should.have.been.calledWith(null, {volume: "300.00", exchange: "bitstamp"});
 		}));
 	});	
 	
@@ -125,7 +125,7 @@ describe("btcstats.js", function(){
 			btcstats.exchanges(["bitfinex", "bitstamp"]);
 			btcstats.maxSpread(callback);
 			
-			callback.should.have.been.calledWith(null, {spread: (20).toFixed(2), bid: 20, ask: 40, bidExchange: "bitfinex", askExchange: "bitstamp"});
+			callback.should.have.been.calledWith(null, {spread: "20.00", bid: 20, ask: 40, bidExchange: "bitfinex", askExchange: "bitstamp"});
 		}));
 	});	
 	
@@ -135,11 +135,12 @@ describe("btcstats.js", function(){
 			var callback = sinon.spy();
 			this.stub(xchange.bitfinex, "ticker").yields(null, {"bid": 20, "ask": 30, "low": 1, "high": 1, "volume": 20, "timestamp": 1, "ticker": "bitfinex"});
 			this.stub(xchange.bitstamp, "ticker").yields(null, {"bid": 30, "ask": 40, "low": 1, "high": 1, "volume": 30, "timestamp": 1, "ticker": "bitstamp"});
+			this.stub(xchange.okcoin, "ticker").yields(null, {"bid": 40, "ask": 50, "low": 1, "high": 1, "volume": 50, "timestamp": 1, "ticker": "okcoin"});
 			
-			btcstats.exchanges(["bitfinex", "bitstamp"]);
+			btcstats.exchanges(["bitfinex", "bitstamp", "okcoin"]);
 			btcstats.minSpread(callback);
 			
-			callback.should.have.been.calledWith(null, {spread: (0).toFixed(2), bid: 30, ask: 30, bidExchange: "bitstamp", askExchange: "bitfinex"});
+			callback.should.have.been.calledWith(null, {spread: "-10.00", bid: 40, ask: 30, bidExchange: "okcoin", askExchange: "bitfinex"});
 		}));
 	});	
 	
@@ -153,7 +154,7 @@ describe("btcstats.js", function(){
 			btcstats.exchanges(["bitfinex", "bitstamp"]);
 			btcstats.exchangeMaxSpread(callback);
 			
-			callback.should.have.been.calledWith(null, {spread: (10).toFixed(2), bid: 30, ask: 40, exchange: "bitstamp"});
+			callback.should.have.been.calledWith(null, {spread: "10.00", bid: 30, ask: 40, exchange: "bitstamp"});
 		}));
 	});	
 	
@@ -167,7 +168,7 @@ describe("btcstats.js", function(){
 			btcstats.exchanges(["bitfinex", "bitstamp"]);
 			btcstats.exchangeMinSpread(callback);
 			
-			callback.should.have.been.calledWith(null, {spread: (5).toFixed(2), bid: 25, ask: 30, exchange: "bitfinex"});
+			callback.should.have.been.calledWith(null, {spread: "5.00", bid: 25, ask: 30, exchange: "bitfinex"});
 		}));
 	});	
 });

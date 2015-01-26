@@ -6,7 +6,7 @@
 
 var btcstats = require("../lib/btcstats")
 
-//btcstats.exchanges(['bitfinex', 'bitstamp', 'okcoin']);
+btcstats.exchanges(["bitfinex", "bitstamp", "okcoin"]);
 
 
 btcstats.avg(function(error, resp) {

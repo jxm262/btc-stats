@@ -1,7 +1,7 @@
 {
   "name": "btc-stats",
   "version": "0.0.0",
-  "description": "Bitcoin price api to calculate statistics on spot prices across exchanges.",
+  "description": "Bitcoin price api.  Calculates statistics on spot prices across exchanges.",
   "main": "btc-stats.js",
   "scripts": {
     "test": "mocha test -R spec"

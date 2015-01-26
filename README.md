@@ -30,7 +30,7 @@ btcstats.exchanges(["bitfinex", "bitstamp", "okcoin"]);
 
 #### Quick Examples  
 ```js  
-var btcstats = require("../lib/btcstats")
+var btcstats = require("btc-stats");
 
 //if this line isn't specified, it runs the avg function across all exchanges, not just these 3
 btcstats.exchanges(["bitfinex", "bitstamp", "okcoin"]);

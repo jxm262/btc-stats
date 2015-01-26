@@ -4,7 +4,7 @@
 
 //"use strict";
 
-var btcstats = require("../lib/btcstats")
+var btcstats = require("../lib/btc-stats")
 
 btcstats.exchanges(["bitfinex", "bitstamp", "okcoin"]);
 

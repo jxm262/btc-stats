@@ -1,6 +1,6 @@
 "use strict";
 
-var btcstats = require("../lib/btcstats.js")
+var btcstats = require("../lib/btc-stats.js")
 	,xchange = require("xchange.js")
 	,async = require("async")
 	,assert = require("assert")

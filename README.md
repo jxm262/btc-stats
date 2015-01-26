@@ -22,7 +22,7 @@ The source is available for download from npm or here on github (master branch)
     npm install btc-stats
     
 If preferred, you can specify a range of exchanges by calling the .exchanges() function.  Otherwise, the functions will run across all the exchanges mentioned above.  
-#### Example  
+
 ```js  
 btcstats.exchanges(["bitfinex", "bitstamp", "okcoin"]);
 ```

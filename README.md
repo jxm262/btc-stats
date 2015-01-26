@@ -114,7 +114,7 @@ btcstats.min(function(error, resp) {
 
 ---------------------------------------
   
-    <a name="max" />
+<a name="max" />
 ### max(callback)
 
 Calculates the exchange with the maximum price.  
@@ -154,7 +154,7 @@ btcstats.minVolume(function(error, resp) {
 
 ---------------------------------------
   
-    <a name="maxVolume" />
+<a name="maxVolume" />
 ### maxVolume(callback)
 
 Calculates the exchange with the maximum volume.

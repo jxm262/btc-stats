@@ -24,6 +24,7 @@ The source is available for download from npm or here on github (master branch)
 If preferred, you can specify a range of exchanges by calling the .exchanges() function.  Otherwise, the functions will run across all the exchanges mentioned above.  
 
 ```js  
+//example - use only these 3 exchanges
 btcstats.exchanges(["bitfinex", "bitstamp", "okcoin"]);
 ```
 

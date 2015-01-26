@@ -15,13 +15,18 @@ This project currently supports the following exchanges
   
 Note: these are all using btc-usd  
   
+If preferred, you can specify a range of exchanges by calling the .exchanges() function.  Otherwise, the functions will run across all the exchanges mentioned above.  
+#### Example  
+```js  
+btcstats.exchanges(["bitfinex", "bitstamp", "okcoin"]);
+```
 
 
-Quick Examples
-==============
+#### Quick Examples  
 ```js  
 var btcstats = require("../lib/btcstats")
 
+//if this line isn't specified, it runs the avg function across all exchanges, not just these 3
 btcstats.exchanges(["bitfinex", "bitstamp", "okcoin"]);
 
 //Example print the average price across 3 exchanges (bitfinex, bitstamp, okcoin)
@@ -30,14 +35,6 @@ btcstats.avg(function(error, resp) {
 		console.log(resp);
 	}
 });  
-
-//Example print the minimum spread (returns the exchange with the min vs the exchange with the max bid)
-btcstats.minSpread(function(error, resp) {
-	if (!error) {
-		console.log(resp);
-	}
-});
-
 ```
   
 ## Documentation

@@ -43,7 +43,15 @@ btcstats.minSpread(function(error, resp) {
 ## Documentation
 
 * [`avg`](#avg)
-* [`eachSeries`](#eachSeries)
+* [`weightedAvg`](#weightedAvg)
+* [`min`](#min)
+* [`max`](#max)
+* [`minVolume`](#minVolume)
+* [`maxVolume`](#maxVolume)
+* [`minSpread`](#minSpread)
+* [`maxSpread`](#maxSpread)
+* [`exchangeMinSpread`](#exchangeMinSpread)
+* [`exchangeMaxSpread`](#exchangeMaxSpread)
   
   
 <a name="avg" />

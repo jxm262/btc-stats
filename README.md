@@ -166,47 +166,87 @@ btcstats.maxVolume(function(error, resp) {
 
 ---------------------------------------
   
-<a name="avg" />
-### avg(callback)
+<a name="minSpread" />
+### minSpread(callback)
 
-Calculates average midpoin price across exchanges.  Midpoint is defined as mid-price between bid vs ask.  
+Calculates minimum spread between all exchanges.  Defined as the exchange with the lowest asking price vs the exchange with the highest bidding price.  This result may often be a negative number if 1 exchange has a higher bid vs an exchange with a lower ask (potential arbitrage maybe ?  :)
 
 
 __Arguments__
 
-* `callback(err, results)` - A callback which is called when averaging process completes, or an error occurs. 
+* `callback(err, results)` - A callback which is called the process completes, or an error occurs. 
 
 __Examples__
 
 ```js
-btcstats.avg(function(error, resp) {
-    //response format { price: xxx }
+btcstats.minSpread(function(error, resp) {
+    //response format { spread: xxx, bid: xxx, ask: xxx, bidExchange: xxx, askExchange: xxx } 
 });
 ```
 
 ---------------------------------------
   
-<a name="avg" />
-### avg(callback)
+<a name="maxSpread" />
+### maxSpread(callback)
 
-Calculates average midpoin price across exchanges.  Midpoint is defined as mid-price between bid vs ask.  
+Calculates maximum spread between all exchanges.  Defined as the exchange with the highest asking price vs the exchange with the lowest bidding price.  
 
 
 __Arguments__
 
-* `callback(err, results)` - A callback which is called when averaging process completes, or an error occurs. 
+* `callback(err, results)` - A callback which is called when the process completes, or an error occurs. 
 
 __Examples__
 
 ```js
-btcstats.avg(function(error, resp) {
-    //response format { price: xxx }
+btcstats.maxSpread(function(error, resp) {
+    //response format { spread: xxx, bid: xxx, ask: xxx, bidExchange: xxx, askExchange: xxx } 
+});
+```
+  
+---------------------------------------
+  
+<a name="exchangeMinSpread" />
+### exchangeMinSpread(callback)
+
+Calculates the exchange (within the list of exchanges) , with the minimum spread.  Defined as the exchange with the highest asking price vs the lowest bidding price.  
+
+
+__Arguments__
+
+* `callback(err, results)` - A callback which is called when the process completes, or an error occurs. 
+
+__Examples__
+
+```js
+btcstats.exchangeMinSpread(function(error, resp) {
+    //response format { spread: xxx, bid: xxx, ask: xxx, bidExchange: xxx, askExchange: xxx } 
 });
 ```
 
----------------------------------------
-  
-      
+---------------------------------------  
+       
+<a name="exchangeMaxSpread" />
+### exchangeMinSpread(callback)
+
+Calculates the exchange (within the list of exchanges) , with the minimum spread.  Defined as the exchange with the highest asking price vs the lowest bidding price.  
+
+
+__Arguments__
+
+* `callback(err, results)` - A callback which is called when the process completes, or an error occurs. 
+
+__Examples__
+
+```js
+btcstats.exchangeMinSpread(function(error, resp) {
+    //response format { spread: xxx, bid: xxx, ask: xxx, bidExchange: xxx, askExchange: xxx } 
+});
+```
+
+---------------------------------------  
+
+     
 Working on btc-stats
 ====================
 
